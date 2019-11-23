@@ -10,8 +10,8 @@
     "service": "TikTok",
     "url": "https://www.tiktok.com/@{}",
     "urlRegister": "https://www.tiktok.com/",
-    "errorType": 0,
-    "errorMsg": null
+    "errorType": 1,
+    "errorMsg": "Couldn&#x27;t find this account</p>"
   },
   "twitter": {
     "service": "Twitter",
