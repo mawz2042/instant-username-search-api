@@ -820,7 +820,7 @@
   },
   "twitch": {
     "service": "Twitch",
-    "url": "https://m.twitch.tv/{}",
+    "url": "https://twitch.tv/{}",
     "urlRegister": "https://www.twitch.tv/",
     "errorType": 0,
     "errorMsg": null
