@@ -1,4 +1,4 @@
-package com.umutcanbolat.instantusernamesearchapi.Model;
+package com.umutcanbolat.instantusernamesearchapi.model;
 
 import javax.persistence.*;
 
