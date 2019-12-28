@@ -22,9 +22,9 @@ import com.google.gson.stream.JsonReader;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.umutcanbolat.instantusernamesearchapi.Model.ServiceModel;
-import com.umutcanbolat.instantusernamesearchapi.Model.ServiceResponseModel;
-import com.umutcanbolat.instantusernamesearchapi.Model.SiteModel;
+import com.umutcanbolat.instantusernamesearchapi.model.ServiceModel;
+import com.umutcanbolat.instantusernamesearchapi.model.ServiceResponseModel;
+import com.umutcanbolat.instantusernamesearchapi.model.SiteModel;
 
 @RestController
 public class UserController {

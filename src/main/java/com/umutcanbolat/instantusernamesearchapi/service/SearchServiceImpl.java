@@ -1,7 +1,7 @@
 package com.umutcanbolat.instantusernamesearchapi.service;
 
-import com.umutcanbolat.instantusernamesearchapi.Model.SearchCountResponseModel;
-import com.umutcanbolat.instantusernamesearchapi.Model.SearchModel;
+import com.umutcanbolat.instantusernamesearchapi.model.SearchCountResponseModel;
+import com.umutcanbolat.instantusernamesearchapi.model.SearchModel;
 import com.umutcanbolat.instantusernamesearchapi.dao.SearchDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

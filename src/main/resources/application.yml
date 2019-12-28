@@ -13,3 +13,7 @@ spring:
       hibernate:
         # The SQL dialect makes Hibernate generate better SQL for the chosen database
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        # https://github.com/spring-projects/spring-boot/issues/12007
+        jdbc:
+          lob:
+            non_contextual_creation: true
