@@ -1,54 +1,46 @@
-package com.umutcanbolat.instantusernamesearchapi.controller;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+package com.umutcanbolat.instantusernamesearchapi.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.umutcanbolat.instantusernamesearchapi.controller.CheckController;
 import com.umutcanbolat.instantusernamesearchapi.model.ServiceModel;
 import com.umutcanbolat.instantusernamesearchapi.model.ServiceResponseModel;
 import com.umutcanbolat.instantusernamesearchapi.model.SiteModel;
+import com.umutcanbolat.instantusernamesearchapi.service.CheckService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Service;
 
-@RestController
-public class UserController {
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
+@Service
+public class CheckServiceImpl implements CheckService {
   @Autowired private ResourceLoader resourceLoader;
-  private static HashMap<String, SiteModel> sitesMap;
+  private static LinkedHashMap<String, SiteModel> sitesMap;
 
   static {
     // read sites data from resources
-    InputStream in = UserController.class.getResourceAsStream("/static/sites.json");
+    InputStream in = CheckController.class.getResourceAsStream("/static/sites.json");
     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
     // parse json to model list
     Gson gson = new Gson();
     JsonReader jReader = new JsonReader(reader);
-    Type mapType = new TypeToken<HashMap<String, SiteModel>>() {}.getType();
+    Type mapType = new TypeToken<LinkedHashMap<String, SiteModel>>() {}.getType();
     sitesMap = gson.fromJson(reader, mapType);
   }
 
-  @RequestMapping("/check/{service}/{username}")
-  @Cacheable("availabilities")
-  public ServiceResponseModel searchUsername(
-      @PathVariable String service, @PathVariable String username)
-      throws FileNotFoundException, UnirestException {
+  @Override
+  public ServiceResponseModel check(String service, String username) {
     try {
       SiteModel site = sitesMap.get(service.toLowerCase());
       if (site != null) {
@@ -92,26 +84,16 @@ public class UserController {
         return new ServiceResponseModel(site.getService(), url, available);
       }
       // service not found
-      return new ServiceResponseModel("Service: " + service + " is not supported");
+      return new ServiceResponseModel("Service " + service + " is not supported yet :/");
     } catch (Exception ex) {
       return new ServiceResponseModel(ex.getMessage());
     }
   }
 
-  @RequestMapping("/services/getAll")
-  public List<ServiceModel> getServicesList() {
+  @Override
+  public List<ServiceModel> getServices() {
     try {
       List<ServiceModel> serviceList = new ArrayList<ServiceModel>();
-
-      // read sites data from resources
-      InputStream in = getClass().getResourceAsStream("/static/sites.json");
-      BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-      // parse json to model list
-      Gson gson = new Gson();
-      JsonReader jReader = new JsonReader(reader);
-      Type mapType = new TypeToken<HashMap<String, SiteModel>>() {}.getType();
-      HashMap<String, SiteModel> sitesMap = gson.fromJson(reader, mapType);
 
       for (SiteModel site : sitesMap.values()) {
         serviceList.add(

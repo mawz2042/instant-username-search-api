@@ -1,14 +1,12 @@
-package com.umutcanbolat.instantusernamesearchapi.service;
+package com.umutcanbolat.instantusernamesearchapi.service.impl;
 
 import com.umutcanbolat.instantusernamesearchapi.model.SearchCountResponseModel;
 import com.umutcanbolat.instantusernamesearchapi.model.SearchModel;
 import com.umutcanbolat.instantusernamesearchapi.dao.SearchDAO;
+import com.umutcanbolat.instantusernamesearchapi.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Service

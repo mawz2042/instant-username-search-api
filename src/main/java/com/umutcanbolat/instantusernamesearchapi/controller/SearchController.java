@@ -19,7 +19,7 @@ public class SearchController {
   }
 
   /**
-   * Gets the total count of searches made until now.
+   * Gets the total count of searches made as of query time.
    *
    * @return count.
    */
