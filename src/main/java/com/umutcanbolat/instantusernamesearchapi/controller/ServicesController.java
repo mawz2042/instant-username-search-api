@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequestMapping("/services")
 public class ServicesController {
   @Autowired private CheckService checkService;
 
-  @RequestMapping("/services/getAll")
+  @RequestMapping("/getAll")
   @Cacheable("services")
   public List<ServiceModel> getServicesList() {
     return checkService.getServices();

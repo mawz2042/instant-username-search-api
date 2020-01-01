@@ -25,10 +25,11 @@ import com.umutcanbolat.instantusernamesearchapi.model.ServiceResponseModel;
 import com.umutcanbolat.instantusernamesearchapi.model.SiteModel;
 
 @RestController
+@RequestMapping("/check")
 public class CheckController {
   @Autowired private CheckService checkService;
 
-  @RequestMapping("/check/{service}/{username}")
+  @RequestMapping("/{service}/{username}")
   @Cacheable("availabilities")
   public ServiceResponseModel searchUsername(
       @PathVariable String service, @PathVariable String username) {
