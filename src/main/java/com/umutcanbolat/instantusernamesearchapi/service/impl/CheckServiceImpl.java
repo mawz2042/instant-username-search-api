@@ -10,6 +10,7 @@ import com.umutcanbolat.instantusernamesearchapi.model.ServiceModel;
 import com.umutcanbolat.instantusernamesearchapi.model.ServiceResponseModel;
 import com.umutcanbolat.instantusernamesearchapi.model.SiteModel;
 import com.umutcanbolat.instantusernamesearchapi.service.CheckService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CheckServiceImpl implements CheckService {
   @Autowired private ResourceLoader resourceLoader;
   private static LinkedHashMap<String, SiteModel> sitesMap;
@@ -58,6 +60,11 @@ public class CheckServiceImpl implements CheckService {
                 .header("Accept-Encoding", "gzip, deflate")
                 .header("Accept-Language", "en-US;q=1")
                 .asString();
+        log.info("checking " + service + " for " + username);
+        log.info("status: " + response.getStatus());
+        if ("instagram".equalsIgnoreCase(service)) {
+          log.info(response.getBody());
+        }
 
         boolean available = false;
 
