@@ -2,7 +2,6 @@ package com.umutcanbolat.instantusernamesearchapi.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.umutcanbolat.instantusernamesearchapi.controller.CheckController;
@@ -36,7 +35,6 @@ public class CheckServiceImpl implements CheckService {
 
     // parse json to model list
     Gson gson = new Gson();
-    JsonReader jReader = new JsonReader(reader);
     Type mapType = new TypeToken<LinkedHashMap<String, SiteModel>>() {}.getType();
     sitesMap = gson.fromJson(reader, mapType);
   }
@@ -53,7 +51,9 @@ public class CheckServiceImpl implements CheckService {
                 .header("Upgrade-Insecure-Requests", "1")
                 .header(
                     "User-Agent",
-                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
+                    site.getUserAgent() != null
+                        ? site.getUserAgent()
+                        : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36")
                 .header(
                     "Accept",
                     "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
@@ -61,16 +61,14 @@ public class CheckServiceImpl implements CheckService {
                 .header("Accept-Language", "en-US;q=1")
                 .asString();
         log.info("checking " + service + " for " + username);
+        log.info(url);
         log.info("status: " + response.getStatus());
-        if ("instagram".equalsIgnoreCase(service)) {
-          log.info(response.getBody());
-        }
 
         boolean available = false;
 
         /*
          * Error Types
-         * 0: returns HTTP 4xx response when the username is not taken.
+         * 0: returns HTTP 4xx response when the username is available.
          * 1: still returns HTTP 2xx when the username is not taken, so we check the response body for errorMsg.
          * 2: returns HTTP 4xx if the username is not taken or disabled.
          * 	  Since disabled usernames cannot be taken again, we check the response body.
